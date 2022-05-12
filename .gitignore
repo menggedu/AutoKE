@@ -1,4 +1,7 @@
 /result
 /log
 *.sh
-/.history
+.history
+/parse/*.txt
+.gitignore
+/.history/*
