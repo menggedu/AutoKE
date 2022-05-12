@@ -1,0 +1,49 @@
+[T_VARIABLE:x, T_DIFF:diff, [T_FUNC:f, T_MULT:*, T_FUNC:K, T_MULT:*, T_VARIABLE:x, T_DIFF:diff, T_VARIABLE:u, T_END:None], T_PLUS:+, T_VARIABLE:y, T_DIFF:diff, [T_FUNC:f, T_MULT:*, T_FUNC:K, T_MULT:*, T_VARIABLE:y, T_DIFF:diff, T_VARIABLE:u, T_END:None], T_MINUS:-, T_VARIABLE:t, T_DIFF:diff, T_VARIABLE:u, T_END:None]
+graph ""
+{
+n1 [label="-"] ;
+n1 -- n2 ;
+n2 [label="+"] ;
+n2 -- n3 ;
+n3 [label="diff"] ;
+n3 -- n4 ;
+n4 [label="x"] ;
+n3 -- n5 ;
+n5 [label="*"] ;
+n5 -- n6 ;
+n6 [label="*"] ;
+n6 -- n7 ;
+n7 [label="f"] ;
+n6 -- n8 ;
+n8 [label="K"] ;
+n5 -- n9 ;
+n9 [label="diff"] ;
+n9 -- n10 ;
+n10 [label="x"] ;
+n9 -- n11 ;
+n11 [label="u"] ;
+n2 -- n12 ;
+n12 [label="diff"] ;
+n12 -- n13 ;
+n13 [label="y"] ;
+n12 -- n14 ;
+n14 [label="*"] ;
+n14 -- n15 ;
+n15 [label="*"] ;
+n15 -- n16 ;
+n16 [label="f"] ;
+n15 -- n17 ;
+n17 [label="K"] ;
+n14 -- n18 ;
+n18 [label="diff"] ;
+n18 -- n19 ;
+n19 [label="y"] ;
+n18 -- n20 ;
+n20 [label="u"] ;
+n1 -- n21 ;
+n21 [label="diff"] ;
+n21 -- n22 ;
+n22 [label="t"] ;
+n21 -- n23 ;
+n23 [label="u"] ;
+}

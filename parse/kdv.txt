@@ -1,0 +1,44 @@
+graph ""
+{
+n1 [label="-"] ;
+n1 -- n2 ;
+n2 [label="+"] ;
+n2 -- n3 ;
+n3 [label="*"] ;
+n3 -- n4 ;
+n4 [label="*"] ;
+n4 -- n5 ;
+n5 [label="a"] ;
+n4 -- n6 ;
+n6 [label="u"] ;
+n3 -- n7 ;
+n7 [label="diff"] ;
+n7 -- n8 ;
+n8 [label="x"] ;
+n7 -- n9 ;
+n9 [label="u"] ;
+n2 -- n10 ;
+n10 [label="*"] ;
+n10 -- n11 ;
+n11 [label="b"] ;
+n10 -- n12 ;
+n12 [label="diff"] ;
+n12 -- n13 ;
+n13 [label="x"] ;
+n12 -- n14 ;
+n14 [label="diff"] ;
+n14 -- n15 ;
+n15 [label="x"] ;
+n14 -- n16 ;
+n16 [label="diff"] ;
+n16 -- n17 ;
+n17 [label="x"] ;
+n16 -- n18 ;
+n18 [label="u"] ;
+n1 -- n19 ;
+n19 [label="diff"] ;
+n19 -- n20 ;
+n20 [label="t"] ;
+n19 -- n21 ;
+n21 [label="u"] ;
+}
