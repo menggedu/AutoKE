@@ -146,7 +146,7 @@ class PhysicsInformedNN():
         if self.system == 'vgc':
             e_ascii = 'diff(F2,x) - diff(u,t)'
         elif self.system == 'kdv':
-            e_ascii = '1 * u * diff(u,x) + 0.0025 * diff(u,x,3) - diff(u,t)'
+            e_ascii = '1 * u * diff(u,x) + 0.0025 * diff(u,x,3) + diff(u,t)'
         else:
             raise NotImplementedError
             print(f'new sytstem: {self.system}')
@@ -179,7 +179,9 @@ class PhysicsInformedNN():
         Manually implement physics constraint:
         Autograd for calculating the residual for different systems.
         """
+        
         u = self.net_u(x, t)
+        print(u)
 
         u_t = torch.autograd.grad(
             u, t,
@@ -227,6 +229,7 @@ class PhysicsInformedNN():
     
     def autocal_residual(self,x,t):
         self.u = self.net_u(x, t)
+        # self.u = self.net_u(self.x_f, self.t_f)
         variable_set = {
             'u':self.u,
             'x':self.x_f,
@@ -247,6 +250,7 @@ class PhysicsInformedNN():
             return result
         # residual = compute(self.ast)
         residual = traverse(self.ast)
+        
         return residual
         
     def net_b_derivatives(self, u_lb, u_ub, x_bc_lb, x_bc_ub):
@@ -272,16 +276,17 @@ class PhysicsInformedNN():
         """ Loss function. """
         if torch.is_grad_enabled():
             self.optimizer.zero_grad()
-        # import pdb;pdb.set_trace()
+        
         u_pred_init = self.net_u(self.x_init, self.t_init)
         u_pred_lb = self.net_u(self.x_bc_lb, self.t_bc_lb)
         u_pred_ub = self.net_u(self.x_bc_ub, self.t_bc_ub)
         
         if not self.auto:
             f_pred = self.net_f(self.x_f, self.t_f)
+            
         else:
             f_pred = self.autocal_residual(self.x_f,self.t_f)
-
+        
         loss_u = torch.mean((self.u_init - u_pred_init) ** 2)
         
         if self.system == 'rd':

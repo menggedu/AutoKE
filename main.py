@@ -16,7 +16,14 @@ import logging
 ################
 # Arguments
 ################
-
+def set_seed(seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # if you are using multi-GPU.
+    np.random.seed(seed)  # Numpy module.
+    random.seed(seed)  # Python random module.
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    
 def main():
     parser = argparse.ArgumentParser(description='AutoKE')
 
@@ -57,7 +64,7 @@ def train(args):
         device = torch.device('cuda')
     else:
         device = torch.device('cpu')
-
+    set_seed(0)
     nu = args.nu
     beta = args.beta
     rho = args.rho
