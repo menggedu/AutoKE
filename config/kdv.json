@@ -1,0 +1,5 @@
+{
+    "system": "kdv",
+    "ascii": "1 * u * diff(u,x) + 0.0025 * diff(u,x,3) + diff(u,t)",
+    "variables": ["u", "t","x"]
+}

@@ -1,0 +1,5 @@
+{
+    "system": "rd",
+    "ascii": "diff(u,x,2) - 1 * u * (1 - u) - diff(u,t)",
+    "variables": ["u", "t","x"]
+}

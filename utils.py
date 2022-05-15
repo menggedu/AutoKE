@@ -2,14 +2,17 @@ import numpy as np
 import random
 import torch
 import torch.nn as nn
+import os
+
 
 def set_seed(seed):
-    random.seed(seed)
-    np.random.seed(seed)
     torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
-
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # if you are using multi-GPU.
+    np.random.seed(seed)  # Numpy module.
+    random.seed(seed)  # Python random module.
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    
 def sample_random(X_all, N):
     """Given an array of (x,t) points, sample N points from this."""
     set_seed(0) # this can be fixed for all N_f

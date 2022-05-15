@@ -1,0 +1,9 @@
+{
+    "system": "vgc",
+    "ascii": "diff(F,x) - diff(u,t)",
+    "funcs":{
+        "F":"u * diff(u,x)"
+    },
+    "variables": ["u", "t","x"]
+
+}

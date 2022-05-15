@@ -1,3 +1,4 @@
+from ast import In
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
@@ -95,10 +96,11 @@ class DNN(torch.nn.Module):
 
 class PhysicsInformedNN():
     """PINN network"""
-    def __init__(self, args, X_star,u_star, X_init, u_init, X_f_train, bc_lb, bc_ub, layers, nu, beta, rho, optimizer_name, lr,
+    def __init__(self, args, X_star,u_star, X_init, u_init, X_f_train, bc_lb, bc_ub, layers, optimizer_name, lr,
          lb=None,ub=None,activation='tanh',
         auto=False, 
-        pretrained_model_path = None):
+        pretrained_model_path = None,
+        func_config = None):
 
         self.system = args.system
         self.epoch_adam = args.epoch_adam
@@ -127,11 +129,7 @@ class PhysicsInformedNN():
             print(f"loading model from {pretrained_model_path}")
             self.load_pretrained_model(pretrained_model_path)
 
-        
         self.layers = layers
-        self.nu = nu
-        self.beta = beta
-        self.rho = rho
 
         self.lr = lr
         self.optimizer = choose_optimizer(optimizer_name, self.dnn.parameters(), self.lr)
@@ -142,23 +140,10 @@ class PhysicsInformedNN():
         self.loss_list = []
         self.l1_list = []
         self.l2_list = []
-        
-        if self.system == 'vgc':
-            e_ascii = 'diff(F2,x) - diff(u,t)'
-        elif self.system == 'kdv':
-            e_ascii = '1 * u * diff(u,x) + 0.0025 * diff(u,x,3) + diff(u,t)'
-        else:
-            raise NotImplementedError
-            print(f'new sytstem: {self.system}')
-            # define e_ascii
-            e_ascii = ''
-            print(f"ascii representation: {e_ascii}")
+
         if self.auto:
-            lexer = Lexer(e_ascii)
-            tokens = lexer.generate_tokens()
-            parser = Parser(tokens)
-            self.ast = parser.parse()
-        
+            self.interpreter = Interpreter(func_config)
+            self.ast = self.interpreter.generate_ast()
         
 
     def net_u(self, x, t):

@@ -1,3 +1,4 @@
+from re import L
 import sys
 import torch
 from parse.tokens import *
@@ -31,12 +32,20 @@ operations = {
     TokenType.T_DIFF: diff,
     TokenType.T_POW: power
 }
-
+mappings = {
+    '+': TokenType.T_PLUS,
+    '-': TokenType.T_MINUS,
+    '*': TokenType.T_MULT,
+    '/': TokenType.T_DIV,
+    '(': TokenType.T_LPAR,
+    ')': TokenType.T_RPAR,
+    'diff': TokenType.T_DIFF,
+    '^':TokenType.T_POW
+}
 def compute(node):
     if node.token_type in [TokenType.T_NUM, TokenType.T_VARIABLE] :
         if node.value in ['e']:#['x','t','e','y']:
             return node.value
-        # pdb.set_trace()
         return eval(node.value)
     # pdb.set_trace()
     left_result = compute(node.children[0])
@@ -46,18 +55,37 @@ def compute(node):
     result = operation(left_result, right_result)
     return result
 
+
 class Interpreter:
-    def __init__(self, ascii_rep):
-        self.ascii_rep = ascii_rep
-        lexer = Lexer(ascii_rep)
-        tokens = lexer.generate_tokens()
-        parser = Parser(tokens)
-        self.ast = parser.parse()
+    def __init__(self, func_config):
+        self.ascii_rep = func_config['ascii']
+        self.mappings = mappings
+        #update mappings
+        self.read_config(func_config)
         
+        lexer = Lexer(self.ascii_rep, self.mappings, func_config)
+        tokens = lexer.generate_tokens()
+        self.parser = Parser(tokens)
         
     
+    def generate_ast(self):
+        return self.parser.parse()
+        # self.ast = parser.parse()
+        
+    def read_config(self, func_config):
+        
+        for v in func_config['variables']:
+            self.mappings[v] = TokenType.T_VARIABLE
+            
+        if 'funcs' in func_config:
+            funcs = func_config['funcs']
+            for v in funcs.keys():
+                self.mappings[funcs[v]] = TokenType.T_FUNC
+        
+            
     def postOrderTraverse(self, u,x,t):
-        compute(self.ast)
+        pass
+        # compute(self.ast)
         
     
 

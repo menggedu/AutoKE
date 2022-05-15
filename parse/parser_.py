@@ -6,7 +6,6 @@ from parse.graph import *
 class Parser:
     def __init__(self,tokens):
         self.tokens = iter(tokens)
-
         self.advance()
         
     def advance(self):
@@ -14,6 +13,7 @@ class Parser:
             self.current_token = next(self.tokens) #self.tokens.pop(0)
         except StopIteration:
             self.current_token = None
+            
     def raise_error(self):
         return Exception("illegal syntax")
     
@@ -33,6 +33,7 @@ class Parser:
             node.children.append(self.parse_e2())
             left_node = node 
         return left_node
+    
     def parse_e2(self):
         left_node = self.parse_e3()
         # import pdb;pdb.set_trace()
@@ -47,7 +48,6 @@ class Parser:
     
     def parse_diff(self):
 
-        # import pdb;pdb.set_trace()
         parser = Parser(self.current_token)
         left_node = parser.parse()
         return left_node
@@ -64,7 +64,6 @@ class Parser:
         return left_node
     
     def parse_e4(self):
-            # import pdb;pdb.set_trace()
         if isinstance(self.current_token, list):
             return self.parse_diff()
         if self.current_token.token_type in [TokenType.T_NUM, TokenType.T_VARIABLE,TokenType.T_FUNC]:

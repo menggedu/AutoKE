@@ -1,8 +1,6 @@
 def recognize_diff(input_s):
     '''
     extract the first expression of diff, not parse the inner diff
-
-
     :param input_s:
     :return:
     '''
@@ -23,6 +21,7 @@ def recognize_diff(input_s):
     return result
 
 def match(current_token, token):
+
     if current_token.token_type == token:
         return current_token
     else:

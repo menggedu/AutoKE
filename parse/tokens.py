@@ -38,31 +38,25 @@ class Node:
     def __repr__(self) -> str:
         return self.token_type.name+f':{self.value}'
     
-mappings = {
-    '+': TokenType.T_PLUS,
-    '-': TokenType.T_MINUS,
-    '*': TokenType.T_MULT,
-    '/': TokenType.T_DIV,
-    '(': TokenType.T_LPAR,
-    ')': TokenType.T_RPAR,
-    'diff': TokenType.T_DIFF,
-    '^':TokenType.T_POW
-}
-variables = ['u','x','t','e','y','a','b']
 
-funcs = {
-    "F1": 'f * K * diff(u,x)',
-    'F2':'u * diff(u,x)',
-    "F3": 'f * K * diff(u,y)', 
+
+# variables = ['u','x','t','e','y','a','b']
+
+# funcs = {
+#     "F1": 'f * K * diff(u,x)',
+#     'F2':'u * diff(u,x)',
+#     "F3": 'f * K * diff(u,y)', 
     
-}
-sub_funcs = {'f': ['f','u'],
-         'K': ['K', 'x']}
-for v in variables:
-    mappings[v] = TokenType.T_VARIABLE
-for v in funcs.keys():
-    mappings[funcs[v]] = TokenType.T_FUNC
-for v in sub_funcs.keys():
-    mappings[sub_funcs[v][0]] = TokenType.T_FUNC    
+# }
+# sub_funcs = {'f': ['f','u'],
+#          'K': ['K', 'x']}
+# for v in variables:
+#     mappings[v] = TokenType.T_VARIABLE
+# for v in funcs.keys():
+#     mappings[funcs[v]] = TokenType.T_FUNC
+    
+# for v in sub_funcs.keys():
+#     mappings[sub_funcs[v][0]] = TokenType.T_FUNC    
+    
 if __name__=='__main__':
     print([Node(TokenType.T_NUM,10),Node(TokenType.T_VARIABLE,'A')])
